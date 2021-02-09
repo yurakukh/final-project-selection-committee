@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="parts/header :: head_info"></head>
+<body>
+<header th:replace="parts/header :: head"></header>
+
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Факультет</th>
+            <th scope="col">Предмет 1</th>
+            <th scope="col">Предмет 2</th>
+            <th scope="col">Предмет 3</th>
+            <th scope="col">Бал на бюджет</th>
+            <th scope="col">Бал на контракт</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <div th:each="faculty : ${faculties}">
+            <tr>
+                <td th:text="${faculty.faculty}"></td>
+                <td th:text="${faculty.subject1}"></td>
+                <td th:text="${faculty.subject2}"></td>
+                <td th:text="${faculty.subject3}"></td>
+                <td th:text="${faculty.budgetPassingScore}"></td>
+                <td th:text="${faculty.contractPassingScore}"></td>
+
+                <td th:if="${#request.isUserInRole('ROLE_ADMIN')}">
+                    <form th:action="'/faculty/' + ${faculty.faculty} + '/remove'" method="post">
+                        <button class="btn btn-danger">Видалити</button>
+                    </form>
+                </td>
+
+                <td th:if="${#request.isUserInRole('ROLE_USER')}">
+                    <form th:action="'/faculty/' + ${faculty.faculty} + '/remove'" method="post">
+                        <button class="btn btn-success">Подати заявку</button>
+                    </form>
+                </td>
+
+            </tr>
+        </div>
+        </tbody>
+    </table>
+    <a th:if="${#request.isUserInRole('ROLE_ADMIN')}" href="/faculty/new" class="btn float-right btn-dark btn-info my-2 my-sm-0">Додати новий</a>
+</div>
+
+<div class="footer-spacer"></div>
+<footer th:replace="parts/footer :: footer"></footer>
+<div th:replace="parts/footer :: scripts"></div>
+</body>
+</html>

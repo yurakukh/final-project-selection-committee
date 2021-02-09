@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="parts/header :: head_info"></head>
+<body>
+<header th:replace="parts/header :: head"></header>
+<section id="register">
+    <div class="register-form-container">
+        <div class="register-form">
+            <div class="form-content">
+                <h4 class="display-4" th:text="#{registration.heading}"></h4>
+                <form th:action="@{/register}" th:object="${user}" method="post">
+
+                    <div class="form-group">
+                        <label for="lastName" th:text="#{registration.last_name}"></label>
+
+                        <input type="text" class="form-control"
+                               th:field="*{lastName}" id="lastName" th:placeholder="#{registration.last_name}"
+                               th:errorClass="is-invalid">
+
+                        <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="invalid-feedback">
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="firstName" th:text="#{registration.first_name}"></label>
+
+                        <input type="text" class="form-control"
+                               th:classappend="${#fields.hasErrors('firstName')}? 'is-invalid':''"
+                               th:field="*{firstName}" id="firstName" th:placeholder="#{registration.first_name}">
+
+                        <div class="invalid-feedback" th:each="error: ${#fields.errors('firstName')}"
+                             th:text="${error}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="patronymic" th:text="#{registration.patronymic}"></label>
+
+                        <input type="text" class="form-control"
+                               th:classappend="${#fields.hasErrors('patronymic')}? 'is-invalid':''"
+                               th:field="*{patronymic}" id="patronymic" th:placeholder="#{registration.patronymic}">
+
+                        <div class="invalid-feedback" th:each="error: ${#fields.errors('patronymic')}"
+                             th:text="${error}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+
+                        <input type="text" class="form-control"
+                               th:classappend="${#fields.hasErrors('email')}? 'is-invalid':''"
+                               th:field="*{email}" id="email" placeholder="E-mail">
+
+                        <div class="invalid-feedback" th:each="error: ${#fields.errors('email')}"
+                             th:text="${error}">
+                        </div>
+                    </div>
+
+<!--                    CITY, REGION, EDUCATION-->
+                    <div class="form-group">
+                        <label for="region" th:text="#{registration.region}"></label>
+
+                        <select class="custom-select" id="region" th:field="*{region}">
+                            <option th:each="region : ${regions}" th:value="${region.name}"
+                                    th:text="${region.name}">
+                            </option>
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="city" th:text="#{registration.city}"></label>
+
+                        <select class="custom-select" id="city" th:field="*{city}">
+                            <option th:each="city : ${cities}" th:value="${city.name}"
+                                    th:text="${city.name}">
+                            </option>
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="educationInstitution" th:text="#{registration.educational_institution}"></label>
+                        <input type="text" class="form-control"
+                               th:field="*{educationInstitution}" id="educationInstitution" th:placeholder="#{registration.educational_institution}" >
+                    </div>
+<!--                    CITY, REGION, EDUCATION-->
+
+<!--                    GRADES-->
+                    <div class="form-group">
+                        <label for="firstSubject" th:text="#{faculty.first_subject}"></label>
+
+                        <select class="custom-select" id="firstSubject" th:field="*{firstSubject}" >
+                            <option th:each="subject : ${subjects}" th:value="${subject.name}"
+                                    th:text="${subject.name}">
+                            </option>
+                        </select>
+                        <input type="number" class="form-control"
+                               th:classappend="${#fields.hasErrors('firstMark')}? 'is-invalid':''"
+                               th:field="*{firstMark}" >
+
+                        <div class="invalid-feedback" th:each="error: ${#fields.errors('firstMark')}"
+                             th:text="${error}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="secondSubject" th:text="#{faculty.second_subject}"></label>
+
+                        <select class="custom-select" id="secondSubject" th:field="*{secondSubject}" >
+                            <option th:each="subject : ${subjects}" th:value="${subject.name}"
+                                    th:text="${subject.name}">
+                            </option>
+                        </select>
+                        <input type="number" class="form-control"
+                               th:classappend="${#fields.hasErrors('secondMark')}? 'is-invalid':''"
+                               th:field="*{secondMark}" >
+                        <div class="invalid-feedback" th:each="error: ${#fields.errors('secondMark')}"
+                             th:text="${error}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="thirdSubject" th:text="#{faculty.third_subject}"></label>
+
+                        <select class="custom-select" id="thirdSubject" th:field="*{thirdSubject}" >
+                            <option th:each="subject : ${subjects}" th:value="${subject.name}"
+                                    th:text="${subject.name}">
+                            </option>
+                        </select>
+                        <input type="number" class="form-control"
+                               th:classappend="${#fields.hasErrors('thirdMark')}? 'is-invalid':''"
+                               th:field="*{thirdMark}" >
+                        <div class="invalid-feedback" th:each="error: ${#fields.errors('thirdMark')}"
+                             th:text="${error}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="certificateScore" th:text="#{registration.certificate_score}"></label>
+                        <input type="number" class="form-control" id="certificateScore"
+                               th:classappend="${#fields.hasErrors('certificateScore')}? 'is-invalid':''"
+                               th:field="*{certificateScore}" >
+                        <div class="invalid-feedback" th:each="error: ${#fields.errors('certificateScore')}"
+                             th:text="${error}">
+                        </div>
+                    </div>
+<!--                    GRADES-->
+
+                    <div class="form-group">
+                        <label for="password" th:text="#{registration.password}"></label>
+                        <input type="password" class="form-control"
+                               th:classappend="${#fields.hasErrors('password')}? 'is-invalid':''"
+                               th:field="*{password}" id="password" >
+                        <div class="invalid-feedback" th:each="error: ${#fields.errors('password')}"
+                             th:text="${error}">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-dark mt-3 mb-3" th:text="#{registration.register}"></button>
+                    <span>
+                        <span th:text="#{registration.already_registered}"></span>
+                        <a href="/" th:href="@{/login}" th:text="#{registration.sign_in}"></a>
+                    </span>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<footer th:replace="parts/footer :: footer"></footer>
+<div th:replace="parts/footer :: scripts"></div>
+</body>
+</html>

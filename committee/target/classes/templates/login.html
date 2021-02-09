@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="parts/header :: head_info"></head>
+<body>
+<header th:replace="parts/header :: head"></header>
+<section id="auth">
+    <div class="auth-form-container">
+        <div class="auth-form">
+
+            <div class="form-content">
+                <form th:action="@{/login}" method="post">
+
+                    <div th:if="${param.error}">
+                        <div class="alert alert-danger"
+                            th:text="#{login.incorrect_input}">
+                        </div>
+                    </div>
+
+                    <div th:if="${param.logout}">
+                        <div class="alert alert-info"
+                            th:text="#{login.successfully_logout}">
+
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text" class="form-control" id="username" name="username" autofocus="autofocus"
+                               th:placeholder="#{login.email}" aria-label="Username" aria-describedby="username">
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-unlock"></i></span>
+                        </div>
+                        <input type="password" id="password" name="password" class="form-control" th:placeholder="#{login.password}"
+                               aria-label="Password" aria-describedby="password">
+                    </div>
+
+                    <button type="submit" name="login-submit" id="login-submit"
+                            class="btn btn-dark btn-lg btn-block pad-auth-btn"
+                            th:text="#{header.sign_in}">
+                    </button>
+
+                    <div class="form-group text-center mt-3">
+                        <span>
+                            <span th:text="#{login.not_registered_yet}"></span>
+                            <a href="/" th:href="@{/register}" th:text="#{login.create_account}"></a>
+                        </span>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<footer th:replace="parts/footer :: footer"></footer>
+<div th:replace="parts/footer :: scripts"></div>
+</body>
+</html>

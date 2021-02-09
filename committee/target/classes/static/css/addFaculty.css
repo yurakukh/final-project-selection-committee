@@ -1,0 +1,9 @@
+.form-content{
+    padding-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.form-group{
+    width: 400px;
+}

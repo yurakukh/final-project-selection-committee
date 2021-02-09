@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:fragment="head_info">
+
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" />
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+        <!-- My styles -->
+        <link rel="stylesheet" th:href="@{/css/styles.css}">
+
+        <!-- Bootstrap 4 -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+<header th:fragment="head">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+            <div class="container-fluid">
+
+                <a class="navbar-brand" href="/">University</a>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI()=='/'?'active':''}">
+                            <a class="nav-link" href="/" th:text="#{header.main}"></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/faculty" th:text="#{header.all_faculties}"></a>
+                        </li>
+    <!--                    <li class="nav-item" th:if="${#request.isUserInRole('ROLE_ADMIN')}">-->
+    <!--                        <a class="nav-link" href="/applicants">Зареєстровані абітурієнти</a>-->
+    <!--                    </li>-->
+
+                    </ul>
+
+                    <div th:unless="${authorized}">
+                        <a href="/login" class="btn btn-dark btn-info my-2 my-sm-0" th:text="#{header.sign_in}"></a>
+                    </div>
+
+                    <!-- if user is authorized it appears-->
+                    <div class="authenticated" th:if="${authorized}">
+                        <div class="greeting">
+                            <img th:src="@{/icons/user.png}" alt="">
+
+                            <a th:if="${#request.isUserInRole('ROLE_ADMIN')}"
+                               th:href="@{/admin}"
+                               th:text="${account.email}"></a>
+
+                            <a th:if="${#request.isUserInRole('ROLE_USER')}"
+                               th:href="@{/user}"
+                               th:text="${account.email}"></a>
+
+                        </div>
+                        <a href="/logout" class="btn btn-danger my-2 my-sm-0" th:text="#{header.logout}"></a>
+                    </div>
+
+                    <div class="dropdown">
+                        <a class="btn btn-outline-secondary dropdown-toggle" href="#"
+                           role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false" th:text="#{lang.language}">                                </a>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" th:href="@{?lang=en}" th:text="#{lang.en}"></a>
+                            <a class="dropdown-item" th:href="@{?lang=ua}" th:text="#{lang.ua}"></a>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </nav>
+</header>
+
+</body>
+</html>

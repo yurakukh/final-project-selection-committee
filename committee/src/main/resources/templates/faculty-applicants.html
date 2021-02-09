@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" />
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title th:text="#{title}"></title>
+
+
+<!-- My styles -->
+<link rel="stylesheet" th:href="@{/css/styles.css}">
+<link rel="stylesheet" th:href="@{/css/addFaculty.css}">
+
+<!-- Bootstrap 4 -->
+<!--<link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.0.0-1/css/bootstrap.min.css"/>-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- FA 5 -->
+<!--<link rel="stylesheet" href="webjars/font-awesome/5.0.6/web-fonts-with-css/css/fontawesome-all.min.css"/>-->
+<body>
+<header th:replace="parts/header :: head"></header>
+
+
+<div>
+    <div th:if="${#lists.isEmpty(faculty.users)}">
+        <div class="alert alert-danger text-center" th:text="#{applications.no_applications_yet}"> </div>
+    </div>
+</div>
+
+
+<div th:if="${not #lists.isEmpty(faculty.users)}" class="container" style="font-size: 14px">
+    <h6 class="display-6" th:text="${faculty.faculty} + ': ' + #{applications.registered_users}"></h6>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col" th:text="#{registration.last_name}"></th>
+            <th scope="col" th:text="#{registration.first_name}"></th>
+            <th scope="col" th:text="#{registration.patronymic}"></th>
+            <th scope="col" th:text="${faculty.subject1}"></th>
+            <th scope="col" th:text="${faculty.subject2}"></th>
+            <th scope="col" th:text="${faculty.subject3}"></th>
+            <th scope="col" th:text="#{registration.certificate_score}"></th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <div th:each="user : ${faculty.users}">
+            <tr>
+                <td th:text="${user.lastName}"></td>
+                <td th:text="${user.firstName}"></td>
+                <td th:text="${user.patronymic}"></td>
+                <td th:text="${user.firstMark}"></td>
+                <td th:text="${user.secondMark}"></td>
+                <td th:text="${user.thirdMark}"></td>
+                <td th:text="${user.certificateScore}"></td>
+
+                <td th:if="${#request.isUserInRole('ROLE_ADMIN')}">
+                    <form th:action="'/faculty/' + ${faculty.faculty} + '/applications/' + ${user.email} + '/confirm'" method="get">
+                        <button th:if="${!user.accepted}" class="btn btn-outline-success" th:text="#{applications.accept}"></button>
+                        <button th:if="${user.accepted}" class="btn btn-secondary" disabled th:text="#{applications.accepted}"></button>
+                    </form>
+                </td>
+
+<!--                <td th:if="${#request.isUserInRole('ROLE_USER')}">-->
+<!--                    <form th:action="'/faculty/' + ${faculty.faculty} + '/apply'" method="post">-->
+
+<!--                        <button class="btn"-->
+<!--                                th:disabled="${#sets.contains(account.faculties, faculty) or (account.firstMark + account.secondMark + account.thirdMark + account.certificateScore) < faculty.contractPassingScore}"-->
+<!--                                th:classappend="${account.firstMark + account.secondMark + account.thirdMark + account.certificateScore < faculty.contractPassingScore}?'btn-secondary':'btn-success'">Подати заявку-->
+<!--                        </button>-->
+<!--                    </form>-->
+<!--                </td>-->
+
+            </tr>
+        </div>
+        </tbody>
+    </table>
+<!--    <nav aria-label="Pagination" th:if="${facultyPage.totalPages gt 0}">-->
+<!--        <ul class="pagination justify-content-center font-weight-bold">-->
+
+<!--            <li class="page-item" th:classappend="${facultyPage.number eq 0} ? 'disabled'">-->
+<!--                <a class="page-link"-->
+<!--                   th:href="@{/faculty?page={id}(id=${facultyPage.number lt 2 ? 1 : facultyPage.number})}"-->
+<!--                   aria-label="Previous" title="Previous Page" data-toggle="tooltip">-->
+<!--                    <span aria-hidden="true">&laquo;</span>-->
+<!--                </a>-->
+<!--            </li>-->
+
+<!--            <li class="page-item" th:classappend="${i eq facultyPage.number + 1} ? 'active'"-->
+<!--                th:each="i : ${#numbers.sequence( 1, facultyPage.totalPages, 1)}">-->
+<!--                <a class="page-link" th:href="@{/faculty?page={id}(id=${i})}" th:text="${i}"-->
+<!--                   th:title="${'Page '+ i}" data-toggle="tooltip"></a>-->
+<!--            </li>-->
+
+<!--            <li class="page-item" th:classappend="${facultyPage.number + 1 eq facultyPage.totalPages} ? 'disabled'">-->
+<!--                <a class="page-link"-->
+<!--                   th:href="@{/faculty?page={id}(id=${facultyPage.number + 2})}"-->
+<!--                   aria-label="Next" title="Next Page" data-toggle="tooltip">-->
+<!--                    <span aria-hidden="true">&raquo;</span>-->
+<!--                </a>-->
+<!--            </li>-->
+
+<!--        </ul>-->
+<!--    </nav>-->
+</div>
+
+<div class="footer-spacer"></div>
+<footer th:replace="parts/footer :: footer"></footer>
+<div th:replace="parts/footer :: scripts"></div>
+</body>
+</html>

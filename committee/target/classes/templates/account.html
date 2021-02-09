@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="parts/header :: head_info"></head>
+<body>
+<header th:replace="parts/header :: head"></header>
+
+<div class="container emp-profile">
+    <form method="post">
+
+            <h3 th:text="#{user.account.user_data}"></h3>
+            <br>
+
+        <div class="row">
+            </div>
+                <div class="tab-content profile-tab" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label th:text="#{registration.last_name}"></label>
+                            </div>
+                            <div class="col-md-6">
+                                <p th:text="${account.lastName}"></p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label th:text="#{registration.first_name}"></label>
+                            </div>
+                            <div class="col-md-6">
+                                <p th:text="${account.firstName}"></p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label th:text="#{registration.patronymic}"></label>
+                            </div>
+                            <div class="col-md-6">
+                                <p th:text="${account.patronymic}"></p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label th:text="#{registration.region}"></label>
+                            </div>
+                            <div class="col-md-6">
+                                <p th:text="${account.region}"></p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label th:text="#{registration.city}"></label>
+                            </div>
+                            <div class="col-md-6">
+                                <p th:text="${account.city}"></p>
+                            </div>
+                        </div>
+
+                        <br>
+
+                        <h5   th:text="#{user.account.marks}"></h5>
+
+                        <br>
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label th:text="${account.firstSubject}"></label>
+                            </div>
+                            <div class="col-md-6">
+                                <p th:text="${account.firstMark}"></p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label th:text="${account.secondSubject}"></label>
+                            </div>
+                            <div class="col-md-6">
+                                <p th:text="${account.secondMark}"></p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label th:text="${account.thirdSubject}"></label>
+                            </div>
+                            <div class="col-md-6">
+                                <p th:text="${account.thirdMark}"></p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label th:text="#{registration.certificate_score}"></label>
+                            </div>
+                            <div class="col-md-6">
+                                <p th:text="${account.certificateScore}"></p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+        <h5 th:text="#{user.account.submitted_applications}"></h5>
+        <table class="table">
+            <thead>
+                <th th:text="#{user.account.faculty}"></th>
+                <th th:text="#{user.account.submitted_applications.status}"></th>
+            </thead>
+            <tbody th:each="faculty : ${account.faculties}">
+                <tr th:classappend="${account.accepted}? 'table-success' : 'table-warning'">
+                    <td th:text="${faculty.faculty}"></td>
+                    <td th:text="${account.accepted}? #{user.account.submitted_applications.accepted} : #{user.account.submitted_applications.under_consideration}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+
+<div class="footer-spacer"></div>
+<footer th:replace="parts/footer :: footer"></footer>
+<div th:replace="parts/footer :: scripts"></div>
+</body>
+</html>

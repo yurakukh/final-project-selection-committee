@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title th:text="#{title}"></title>
+
+
+    <!-- My styles -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/addFaculty.css}">
+
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.0.0-1/css/bootstrap.min.css"/>
+
+
+</head>
+<body>
+<header th:replace="parts/header :: head"></header>
+
+<div class="container">
+
+    <h3 class="display-4" th:text="#{faculty.add.heading}"></h3>
+
+    <div class="form-content">
+
+        <form th:action="@{/add-new-faculty}" th:object="${faculty}" method="post">
+
+            <div class="form-group">
+
+                <label for="faculty" th:text="#{faculty.add.faculty_name}"></label>
+
+                <input th:field="*{faculty}" type="text" class="form-control" id="faculty"
+                       th:placeholder="#{faculty.add.faculty_name}"
+                       th:classappend="${#fields.hasErrors('faculty')}? 'is-invalid':''">
+                <div class="invalid-feedback" th:each="error: ${#fields.errors('faculty')}"
+                     th:text="${error}">
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                <label for="subject1" th:text="#{faculty.first_subject}"></label>
+
+                <select class="custom-select" id="subject1" th:field="*{subject1}" required>
+                    <option th:each="subject : ${subjects}" th:value="${subject.name}"
+                            th:text="${subject.name}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+
+                <label for="subject2" th:text="#{faculty.second_subject}"></label>
+
+                <select class="custom-select" id="subject2" th:field="*{subject2}" required>
+                    <option th:each="subject : ${subjects}" th:value="${subject.name}"
+                            th:text="${subject.name}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+
+                <label for="subject3" th:text="#{faculty.third_subject}"></label>
+
+                <select class="custom-select" id="subject3" th:field="*{subject3}" required>
+                    <option th:each="subject : ${subjects}" th:value="${subject.name}"
+                            th:text="${subject.name}">
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+
+                <label for="budgetPlaces" th:text="#{faculty.budget_places}"></label>
+
+                <input th:field="*{budgetPlaces}" type="text" class="form-control" id="budgetPlaces"
+                       th:placeholder="#{faculty.budget_places}"
+                       th:classappend="${#fields.hasErrors('budgetPlaces')}? 'is-invalid':''">
+                <div class="invalid-feedback" th:each="error: ${#fields.errors('budgetPlaces')}"
+                     th:text="${error}">
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                <label for="contractPlaces" th:text="#{faculty.contract_places}"></label>
+
+                <input th:field="*{contractPlaces}" type="text" class="form-control" id="contractPlaces"
+                       th:placeholder="#{faculty.contract_places}"
+                       th:classappend="${#fields.hasErrors('contractPlaces')}? 'is-invalid':''">
+                <div class="invalid-feedback" th:each="error: ${#fields.errors('contractPlaces')}"
+                     th:text="${error}">
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                <label for="budgetPassingScore" th:text="#{faculty.budget_passing_score}"></label>
+
+                <input th:field="*{budgetPassingScore}" type="text" class="form-control" id="budgetPassingScore"
+                       th:placeholder="#{faculty.budget_passing_score}"
+                       th:classappend="${#fields.hasErrors('budgetPassingScore')}? 'is-invalid':''">
+                <div class="invalid-feedback" th:each="error: ${#fields.errors('budgetPassingScore')}"
+                     th:text="${error}">
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                <label for="contractPassingScore" th:text="#{faculty.contract_passing_score}"></label>
+
+                <input th:field="*{contractPassingScore}" type="text" class="form-control" id="contractPassingScore"
+                       th:placeholder="#{faculty.contract_passing_score}"
+                       th:classappend="${#fields.hasErrors('contractPassingScore')}? 'is-invalid':''">
+                <div class="invalid-feedback" th:each="error: ${#fields.errors('contractPassingScore')}"
+                     th:text="${error}">
+                </div>
+            </div>
+
+            <button type="submit" class="btn float-right btn-success mt-3 mb-3" th:text="#{faculty.add.save}"></button>
+
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript" th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
+<script type="text/javascript" src="webjars/bootstrap/4.0.0-1/js/bootstrap.min.js"></script>
+</body>
+</html>

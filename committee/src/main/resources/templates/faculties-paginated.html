@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="parts/header :: head_info"></head>
+<body>
+<header th:replace="parts/header :: head"></header>
+
+<div>
+    <div th:if="${#lists.isEmpty(facultyPage.content)}">
+        <div class="alert alert-danger text-center" th:text="#{faculty.no_faculties_yet}"> </div>
+    </div>
+</div>
+
+<div th:if="${not #lists.isEmpty(facultyPage.content)}"
+     class="container" style="font-size: 14px">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col" th:text="#{faculty.faculty}"></th>
+            <th scope="col" th:text="#{faculty.first_subject}">Предмет 1</th>
+            <th scope="col" th:text="#{faculty.second_subject}">Предмет 2</th>
+            <th scope="col" th:text="#{faculty.third_subject}">Предмет 3</th>
+            <th scope="col" th:text="#{faculty.budget_passing_score}">Бал на бюджет</th>
+            <th scope="col" th:text="#{faculty.contract_passing_score}">Бал на контракт</th>
+            <th scope="col" th:text="#{faculty.budget_places}">Бюджетні місця</th>
+            <th scope="col" th:text="#{faculty.contract_places}">Контрактні місця</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <div th:each="faculty : ${facultyPage.content}">
+            <tr>
+                <td th:text="${faculty.faculty}"></td>
+                <td th:text="${faculty.subject1}"></td>
+                <td th:text="${faculty.subject2}"></td>
+                <td th:text="${faculty.subject3}"></td>
+                <td th:text="${faculty.budgetPassingScore}"></td>
+                <td th:text="${faculty.contractPassingScore}"></td>
+                <td th:text="${faculty.budgetPlaces}"></td>
+                <td th:text="${faculty.contractPlaces}"></td>
+
+                <td th:if="${#request.isUserInRole('ROLE_ADMIN')}">
+                    <form th:action="'/faculty/' + ${faculty.faculty} + '/applications'" method="get">
+                        <button class="btn btn-outline-info" th:text="#{faculty.applications} + '(' + ${faculty.users.size()} + ')'"></button>
+                    </form>
+                    <form th:action="'/faculty/' + ${faculty.faculty} + '/remove'" method="post">
+                        <button class="btn btn-danger" th:text="#{faculty.remove}"></button>
+                    </form>
+                </td>
+
+                <td th:if="${#request.isUserInRole('ROLE_USER')}">
+                    <form th:action="'/faculty/' + ${faculty.faculty} + '/apply'" method="post">
+
+                        <button class="btn"
+                                th:disabled="${
+                                #sets.contains(account.faculties, faculty)
+                                or (account.firstMark + account.secondMark + account.thirdMark + account.certificateScore) < faculty.contractPassingScore
+                                or account.accepted}"
+                                th:classappend="${account.firstMark + account.secondMark + account.thirdMark + account.certificateScore < faculty.contractPassingScore}?'btn-secondary':'btn-success'"
+                                th:text="#{faculty.apply}">
+                        </button>
+                    </form>
+                </td>
+
+            </tr>
+        </div>
+        </tbody>
+    </table>
+
+    <nav aria-label="Pagination" th:if="${facultyPage.totalPages gt 0}">
+        <ul class="pagination justify-content-center font-weight-bold">
+
+            <li class="page-item" th:classappend="${facultyPage.number eq 0} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{/faculty?page={id}(id=${facultyPage.number lt 2 ? 1 : facultyPage.number})}"
+                   aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            <li class="page-item" th:classappend="${i eq facultyPage.number + 1} ? 'active'"
+                th:each="i : ${#numbers.sequence( 1, facultyPage.totalPages, 1)}">
+                <a class="page-link" th:href="@{/faculty?page={id}(id=${i})}" th:text="${i}"
+                   th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+            </li>
+
+            <li class="page-item" th:classappend="${facultyPage.number + 1 eq facultyPage.totalPages} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{/faculty?page={id}(id=${facultyPage.number + 2})}"
+                   aria-label="Next" title="Next Page" data-toggle="tooltip">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+
+
+</div>
+
+<div class="container">
+    <a th:if="${#request.isUserInRole('ROLE_ADMIN')}"
+       href="/add-new-faculty"
+       class="btn float-right btn-dark btn-info my-2 my-sm-0"
+       th:text="#{faculty.add}"></a>
+</div>
+
+<div class="footer-spacer"></div>
+<footer th:replace="parts/footer :: footer"></footer>
+<div th:replace="parts/footer :: scripts"></div>
+</body>
+</html>
